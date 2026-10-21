@@ -23,6 +23,19 @@ class SoundManager {
   /** Resume audio during a trusted user gesture (required by mobile browsers). */
   public unlock() {
     this.initContext();
+    if (!this.ctx) return;
+
+    // iOS Safari may require an audio node to start inside the gesture itself,
+    // even when resume() changes the context state to "running".
+    try {
+      const buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate);
+      const source = this.ctx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(this.ctx.destination);
+      source.start(0);
+    } catch {
+      // Audio may be unavailable in the current browser or document state.
+    }
   }
 
   public playBlip() {
