@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { WeeklyChallengeWeekData, WeeklyChallengeInstance } from '../types/quest';
-import { getTaiwanWeekInfo, CHALLENGE_TEMPLATES } from '../utils/challenge';
+import { getTaiwanWeekInfo, CHALLENGE_TEMPLATES, getChallengeDisplayTitle } from '../utils/challenge';
 import { Target, CheckCircle2, Award, Calendar, Sparkles, ChevronRight, CheckSquare, Square, Info } from 'lucide-react';
 import { soundManager } from '../utils/sound';
 
@@ -76,7 +76,7 @@ export const WeeklyChallengeCard: React.FC<WeeklyChallengeCardProps> = ({
               <div>
                 <div className="flex items-start justify-between gap-1 mb-1.5">
                   <h4 className="font-retro font-bold text-xs sm:text-sm text-white line-clamp-1">
-                    {challenge.title}
+                    {getChallengeDisplayTitle(challenge.title)}
                   </h4>
                   <span className="font-pixel text-[10px] text-[#F6D778] font-bold shrink-0">
                     +{challenge.rewardExp} EXP
@@ -143,7 +143,7 @@ export const WeeklyChallengeCard: React.FC<WeeklyChallengeCardProps> = ({
             <Sparkles className="w-4 h-4 text-[#F6D778] animate-spin" />
             <div>
               <span className="text-xs font-bold text-[#F6D778]">
-                🎉 本週全挑戰大滿貫！
+                本週全挑戰大滿貫！
               </span>
               <p className="text-[10px] text-[#F4D9F0]/80">
                 本週 3 項挑戰已全數達成，領取週全勤額外榮譽獎勵
@@ -206,7 +206,7 @@ export const WeeklyChallengeCard: React.FC<WeeklyChallengeCardProps> = ({
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-white flex items-center gap-2">
                       <span aria-hidden="true" className="text-base leading-none">{tmpl.emoji}</span>
-                      <span>{tmpl.title}</span>
+                      <span>{getChallengeDisplayTitle(tmpl.title)}</span>
                     </span>
                     <span className="font-pixel text-[10px] text-[#F6D778]">
                       +{tmpl.rewardExp} EXP
