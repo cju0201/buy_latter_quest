@@ -36,6 +36,7 @@ import {
 } from './utils/storage';
 import { calculateLevel, LevelInfo } from './utils/level';
 import { soundManager } from './utils/sound';
+import { bgmManager } from './utils/bgm';
 import { Header } from './components/Header';
 import { MobileNav } from './components/MobileNav';
 import { AdventurerHUD } from './components/AdventurerHUD';
@@ -108,6 +109,21 @@ export default function App() {
     soundManager.enabled = soundEnabled;
     saveStoredSound(soundEnabled);
   }, [soundEnabled]);
+
+  // Mobile Safari and other mobile browsers require audio contexts to be
+  // resumed from a real user gesture. Unlock both engines on first interaction.
+  useEffect(() => {
+    const unlockAudio = () => {
+      soundManager.unlock();
+      bgmManager.unlock();
+    };
+    window.addEventListener('pointerdown', unlockAudio, { capture: true });
+    window.addEventListener('keydown', unlockAudio, { capture: true });
+    return () => {
+      window.removeEventListener('pointerdown', unlockAudio, { capture: true });
+      window.removeEventListener('keydown', unlockAudio, { capture: true });
+    };
+  }, []);
 
   useEffect(() => {
     if (!isTourOpen) return;
