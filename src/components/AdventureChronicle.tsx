@@ -167,14 +167,16 @@ export const AdventureChronicle: React.FC<AdventureChronicleProps> = ({
         ].map((tab) => (
           <button
             key={tab.key}
+            type="button"
+            aria-pressed={filterType === tab.key}
             onClick={() => {
               soundManager.playBlip();
               setFilterType(tab.key);
             }}
-            className={`px-3 py-1 rounded transition-colors whitespace-nowrap ${
+            className={`pixel-btn pixel-filter-btn px-3 py-1.5 rounded-sm whitespace-nowrap transition-all ${
               filterType === tab.key
-                ? 'bg-[#8B65C7] text-white font-bold'
-                : 'bg-[#251b3d] text-[#F4D9F0]/70 hover:text-white'
+                ? 'bg-[#8B65C7] border-[#D6BCFF] text-white font-bold shadow-[0_4px_0_#150e26,0_5px_10px_rgba(0,0,0,0.3)]'
+                : 'bg-[#30254D] border-[#65508D] text-[#F4D9F0]/85 shadow-[0_4px_0_#150e26] hover:bg-[#49366E] hover:border-[#9B7BCB] hover:text-white hover:-translate-y-0.5'
             }`}
           >
             {tab.label}
