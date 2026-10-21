@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-dark: #211a36;
+    --panel-dark: #30254d;
+    --panel-border: #4a3b75;
+    --accent-purple: #8b65c7;
+    --accent-purple-light: #a481de;
+    --dreamy-pink: #f4d9f0;
+    --quest-green: #d7eedb;
+    --reward-gold: #f6d778;
+  }
+
+  body {
+    background-color: #211a36;
+    color: #f4d9f0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom Fonts */
+.font-pixel {
+  font-family: 'Press Start 2P', monospace;
+}
+
+.font-retro {
+  font-family: 'DotGothic16', 'Press Start 2P', monospace;
+}
+
+/* 16-bit RPG Pixel Bevel Frames & Card Borders */
+.pixel-box {
+  background-color: #30254d;
+  border: 2px solid #5a478c;
+  box-shadow: 
+    0 4px 0 0 #150f24,
+    inset 2px 2px 0 0 rgba(255, 255, 255, 0.1),
+    inset -2px -2px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.pixel-box-gold {
+  background-color: #382c59;
+  border: 2px solid #f6d778;
+  box-shadow: 
+    0 4px 0 0 #523f0c,
+    inset 2px 2px 0 0 rgba(255, 245, 204, 0.3),
+    inset -2px -2px 0 0 rgba(0, 0, 0, 0.4);
+}
+
+.pixel-box-green {
+  background-color: #28373b;
+  border: 2px solid #6ee7b7;
+  box-shadow: 
+    0 4px 0 0 #0d2822,
+    inset 2px 2px 0 0 rgba(215, 238, 219, 0.2);
+}
+
+.pixel-btn {
+  font-family: 'DotGothic16', 'Plus Jakarta Sans', sans-serif;
+  position: relative;
+  border: 2px solid #23163e;
+  box-shadow: 
+    inset 2px 2px 0 0 rgba(255, 255, 255, 0.25),
+    inset -2px -2px 0 0 rgba(0, 0, 0, 0.4),
+    0 3px 0 0 #150e26;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  user-select: none;
+}
+
+.pixel-btn:hover {
+  filter: brightness(1.1);
+}
+
+.pixel-btn:active {
+  transform: translateY(2px);
+  box-shadow: 
+    inset 2px 2px 0 0 rgba(0, 0, 0, 0.4),
+    0 1px 0 0 #150e26;
+}
+
+/* Subtle pixel scanline background accent (optional decorative texture) */
+.pixel-grid-pattern {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+/* Tabular figures for all timers and numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Keep the fixed mobile navigation clear of iOS and Android gesture areas. */
+.safe-bottom {
+  padding-bottom: max(0.375rem, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 1023px) {
+  .safe-bottom svg {
+    display: block;
+    flex: 0 0 auto;
+  }
+}
