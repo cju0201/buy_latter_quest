@@ -4,7 +4,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-substitute',
     emoji: '🧰',
-    title: '物盡其用：檢查現有替代品',
+    title: '物盡其用',
     description: '在購買新物品前，巡視家中是否已有功能相近、仍能滿足需求的物品。',
     actionHint: '點擊下方完成個人審查',
     rewardExp: 20,
@@ -14,7 +14,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-soul-quiz',
     emoji: '🧠',
-    title: '心靈探問：完成一次靈魂拷問',
+    title: '心靈探問',
     description: '使用「購物靈魂拷問室」檢驗一件令你心動的商品，獲得客觀判斷卡。',
     actionHint: '在任務卡或大廳點擊「靈魂拷問」完成 5 題評估',
     rewardExp: 25,
@@ -24,7 +24,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-review-expired',
     emoji: '⚔️',
-    title: '勇者抉擇：處理一件到期任務',
+    title: '勇者抉擇',
     description: '重新檢視已過冷靜期的任務，做出放棄、延長或購買的深思決定。',
     actionHint: '在待重新評估任務卡點擊「進行購物決策」',
     rewardExp: 25,
@@ -34,7 +34,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-write-reason',
     emoji: '📝',
-    title: '冷靜入庫：記錄心動原因與備註',
+    title: '冷靜入庫',
     description: '新增一筆購物冷靜期任務，並清楚寫下當下為什麼想買的心動理由。',
     actionHint: '點擊「＋ 接受新任務」並填寫心動備註',
     rewardExp: 20,
@@ -44,7 +44,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-free-joy',
     emoji: '🌿',
-    title: '零元幸福：尋找免花錢的滿足',
+    title: '零元幸福',
     description: '找出一件不需要花費金錢，也能獲得成就感或快樂的事物（如散步、閱讀、整理）。',
     actionHint: '點擊下方確認本週零元生活實踐',
     rewardExp: 20,
@@ -54,7 +54,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-compare-price',
     emoji: '🔍',
-    title: '貨比三家：客觀比較商品差異',
+    title: '貨比三家',
     description: '若真有必要購買，比較 2 家以上同類商品之規格與合理售價。',
     actionHint: '點擊下方確認已進行價格與規格比較',
     rewardExp: 20,
@@ -64,7 +64,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-audit-spending',
     emoji: '🧾',
-    title: '荷包盤點：檢視本週非必要支出',
+    title: '荷包盤點',
     description: '花 3 分鐘回顧最近 7 天的消費帳單，確認是否有盲目跟風的小額支出。',
     actionHint: '點擊下方完成本週自我開銷檢視',
     rewardExp: 20,
@@ -74,7 +74,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-extend-cooling',
     emoji: '⏳',
-    title: '耐力考驗：主動延長一次冷靜期',
+    title: '耐力考驗',
     description: '面對不確定的商品，給予自己更多思考時間，延長 24 小時以上。',
     actionHint: '在任務卡選擇「延長冷靜期」',
     rewardExp: 25,
@@ -84,7 +84,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-abandon-save',
     emoji: '🛡️',
-    title: '理智勝利：成功放棄一件衝動商品',
+    title: '理智勝利',
     description: '熱情消退後確認不買，成功將商品金額計入保住預算。',
     actionHint: '將冷靜期任務標記為「放棄購買」',
     rewardExp: 25,
@@ -94,7 +94,7 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
     id: 'ch-reflect-trigger',
     emoji: '🪞',
-    title: '誘惑復盤：識別購物心動觸發點',
+    title: '誘惑復盤',
     description: '回顧最容易讓自己衝動消費的情境（如深夜滑手機、社群限時促銷、壓力大）。',
     actionHint: '點擊下方確認完成衝動情境分析',
     rewardExp: 20,
