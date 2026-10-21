@@ -32,6 +32,17 @@ class BgmManager {
   /** Resume audio during a trusted user gesture (required by mobile browsers). */
   public unlock() {
     this.initAudio();
+    if (!this.ctx) return;
+
+    try {
+      const buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate);
+      const source = this.ctx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(this.ctx.destination);
+      source.start(0);
+    } catch {
+      // Audio may be unavailable in the current browser or document state.
+    }
   }
 
   // Pentatonic & diatonic town theme notes for a cozy 16-bit RPG tavern/inn
@@ -129,14 +140,24 @@ class BgmManager {
 
     this.isPlaying = true;
 
-    // Try playing external audio if available, otherwise procedural synth
-    if (this.useExternal && this.externalAudio) {
-      this.externalAudio.play().catch(() => {
-        this.useExternal = false;
+    // Wait for mobile browsers to resume the AudioContext before scheduling
+    // notes; otherwise the note timer can advance while audio is still paused.
+    const beginPlayback = () => {
+      if (!this.isPlaying) return;
+      if (this.useExternal && this.externalAudio) {
+        this.externalAudio.play().catch(() => {
+          this.useExternal = false;
+          this.playMelodyStep(0);
+        });
+      } else {
         this.playMelodyStep(0);
-      });
+      }
+    };
+
+    if (this.ctx && this.ctx.state !== 'running') {
+      this.ctx.resume().then(beginPlayback).catch(() => {});
     } else {
-      this.playMelodyStep(0);
+      beginPlayback();
     }
   }
 
