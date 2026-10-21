@@ -24,9 +24,14 @@ class BgmManager {
         this.masterGain.connect(this.ctx.destination);
       }
     }
-    if (this.ctx && this.ctx.state === 'suspended') {
+    if (this.ctx && this.ctx.state !== 'running') {
       this.ctx.resume().catch(() => {});
     }
+  }
+
+  /** Resume audio during a trusted user gesture (required by mobile browsers). */
+  public unlock() {
+    this.initAudio();
   }
 
   // Pentatonic & diatonic town theme notes for a cozy 16-bit RPG tavern/inn
