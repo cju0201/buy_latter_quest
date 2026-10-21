@@ -78,6 +78,15 @@
     0 1px 0 0 #150e26;
 }
 
+.pixel-filter-btn:active {
+  transform: translate(2px, 3px);
+  box-shadow:
+    inset 3px 3px 0 0 rgba(0, 0, 0, 0.42),
+    inset -2px -2px 0 0 rgba(255, 255, 255, 0.08),
+    0 0 0 0 #150e26;
+  filter: brightness(0.84);
+}
+
 /* Subtle pixel scanline background accent (optional decorative texture) */
 .pixel-grid-pattern {
   background-size: 24px 24px;
