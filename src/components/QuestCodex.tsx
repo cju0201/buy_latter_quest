@@ -138,13 +138,15 @@ export const QuestCodex: React.FC<QuestCodexProps> = ({
         ].map((tab) => (
           <button
             key={tab.key}
+            type="button"
+            aria-pressed={statusFilter === tab.key}
             onClick={() => handleTabChange(tab.key)}
-            className={`px-3 py-1.5 text-xs font-retro rounded transition-colors flex items-center gap-1.5 cursor-pointer ${
+            className={`pixel-btn pixel-filter-btn px-3 py-1.5 text-xs font-retro rounded-sm transition-all flex items-center gap-1.5 cursor-pointer ${
               statusFilter === tab.key
-                ? 'bg-[#8B65C7] text-white font-bold shadow-xs'
+                ? 'bg-[#8B65C7] border-[#D6BCFF] text-white font-bold shadow-[0_4px_0_#150e26,0_5px_10px_rgba(0,0,0,0.3)]'
                 : tab.highlight
-                ? 'text-[#F6D778] font-bold hover:bg-[#342754]'
-                : 'text-[#F4D9F0]/70 hover:text-white hover:bg-[#342754]'
+                ? 'bg-[#30254D] border-[#8A7546] text-[#F6D778] font-bold shadow-[0_4px_0_#150e26] hover:bg-[#49366E] hover:border-[#C6A75F] hover:-translate-y-0.5'
+                : 'bg-[#30254D] border-[#65508D] text-[#F4D9F0]/85 shadow-[0_4px_0_#150e26] hover:bg-[#49366E] hover:border-[#9B7BCB] hover:text-white hover:-translate-y-0.5'
             }`}
           >
             <span>{tab.label}</span>
