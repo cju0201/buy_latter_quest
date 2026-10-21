@@ -15,9 +15,14 @@ class SoundManager {
         this.ctx = new AudioCtx();
       }
     }
-    if (this.ctx && this.ctx.state === 'suspended') {
+    if (this.ctx && this.ctx.state !== 'running') {
       this.ctx.resume().catch(() => {});
     }
+  }
+
+  /** Resume audio during a trusted user gesture (required by mobile browsers). */
+  public unlock() {
+    this.initContext();
   }
 
   public playBlip() {
