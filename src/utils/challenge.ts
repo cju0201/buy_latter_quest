@@ -1,4 +1,8 @@
-import { WeeklyChallengeTemplate, WeeklyChallengeWeekData, WeeklyChallengeInstance } from '../types/quest';
+import {
+  WeeklyChallengeTemplate,
+  WeeklyChallengeWeekData,
+  WeeklyChallengeInstance,
+} from '../types/quest';
 
 export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
   {
@@ -102,15 +106,15 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
     verificationType: 'self_reflection',
   },
 ];
-export function getChallengeDisplayTitle(title: string): string {
-  return title.split(/[：:]/, 1)[0].trim();
-}
+
 export function getChallengeDisplayTitle(title: string): string {
   return title.split(/[：:]/, 1)[0].trim();
 }
 
 // Helper: Get Taiwan Time (Asia/Taipei UTC+8) current week info
-export function getTaiwanWeekInfo(date: Date = new Date()): {
+export function getTaiwanWeekInfo(
+  date: Date = new Date()
+): {
   weekKey: string;
   weekStartStr: string;
   weekEndStr: string;
@@ -134,10 +138,15 @@ export function getTaiwanWeekInfo(date: Date = new Date()): {
 
   // Calculate ISO week number
   const startOfYear = new Date(monday.getFullYear(), 0, 1);
-  const pastDaysOfYear = (monday.getTime() - startOfYear.getTime()) / 86400000;
-  const weekNum = Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
+  const pastDaysOfYear =
+    (monday.getTime() - startOfYear.getTime()) / 86400000;
+  const weekNum = Math.ceil(
+    (pastDaysOfYear + startOfYear.getDay() + 1) / 7
+  );
 
-  const weekKey = `${monday.getFullYear()}-W${weekNum.toString().padStart(2, '0')}`;
+  const weekKey = `${monday.getFullYear()}-W${weekNum
+    .toString()
+    .padStart(2, '0')}`;
 
   const formatM = (d: Date) => `${d.getMonth() + 1}/${d.getDate()}`;
   const formattedRange = `${formatM(monday)}（一）~ ${formatM(sunday)}（日）`;
@@ -160,7 +169,9 @@ function hashWeekKey(weekKey: string): number {
   return Math.abs(hash);
 }
 
-export function generateWeeklyChallengesForWeek(weekKey: string): WeeklyChallengeInstance[] {
+export function generateWeeklyChallengesForWeek(
+  weekKey: string
+): WeeklyChallengeInstance[] {
   const hash = hashWeekKey(weekKey);
   const indices: number[] = [];
 
