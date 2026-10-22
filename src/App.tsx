@@ -118,10 +118,12 @@ export default function App() {
       bgmManager.unlock();
     };
     window.addEventListener('pointerdown', unlockAudio, { capture: true });
+    window.addEventListener('touchstart', unlockAudio, { capture: true, passive: true });
     window.addEventListener('touchend', unlockAudio, { capture: true });
     window.addEventListener('keydown', unlockAudio, { capture: true });
     return () => {
       window.removeEventListener('pointerdown', unlockAudio, { capture: true });
+      window.removeEventListener('touchstart', unlockAudio, { capture: true });
       window.removeEventListener('touchend', unlockAudio, { capture: true });
       window.removeEventListener('keydown', unlockAudio, { capture: true });
     };
