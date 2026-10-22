@@ -32,7 +32,7 @@
 .pixel-box {
   background-color: #30254d;
   border: 2px solid #5a478c;
-  box-shadow: 
+  box-shadow:
     0 4px 0 0 #150f24,
     inset 2px 2px 0 0 rgba(255, 255, 255, 0.1),
     inset -2px -2px 0 0 rgba(0, 0, 0, 0.3);
@@ -41,7 +41,7 @@
 .pixel-box-gold {
   background-color: #382c59;
   border: 2px solid #f6d778;
-  box-shadow: 
+  box-shadow:
     0 4px 0 0 #523f0c,
     inset 2px 2px 0 0 rgba(255, 245, 204, 0.3),
     inset -2px -2px 0 0 rgba(0, 0, 0, 0.4);
@@ -50,7 +50,7 @@
 .pixel-box-green {
   background-color: #28373b;
   border: 2px solid #6ee7b7;
-  box-shadow: 
+  box-shadow:
     0 4px 0 0 #0d2822,
     inset 2px 2px 0 0 rgba(215, 238, 219, 0.2);
 }
@@ -59,7 +59,7 @@
   font-family: 'DotGothic16', 'Plus Jakarta Sans', sans-serif;
   position: relative;
   border: 2px solid #23163e;
-  box-shadow: 
+  box-shadow:
     inset 2px 2px 0 0 rgba(255, 255, 255, 0.25),
     inset -2px -2px 0 0 rgba(0, 0, 0, 0.4),
     0 3px 0 0 #150e26;
@@ -73,11 +73,12 @@
 
 .pixel-btn:active {
   transform: translateY(2px);
-  box-shadow: 
+  box-shadow:
     inset 2px 2px 0 0 rgba(0, 0, 0, 0.4),
     0 1px 0 0 #150e26;
 }
 
+/* 篩選按鈕按下時的像素下壓效果 */
 .pixel-filter-btn:active {
   transform: translate(2px, 3px);
   box-shadow:
@@ -87,19 +88,30 @@
   filter: brightness(0.84);
 }
 
-.pixel-filter-btn[aria-pressed='true']:active {
+/* 已選取的篩選按鈕維持下壓狀態 */
+.pixel-filter-btn[aria-pressed='true'] {
   transform: translate(2px, 3px);
   box-shadow:
     inset 3px 3px 0 0 rgba(0, 0, 0, 0.42),
     inset -2px -2px 0 0 rgba(255, 255, 255, 0.08),
     0 0 0 0 #150e26;
-  filter: brightness(0.84);
+  filter: brightness(0.88);
 }
 
-/* Subtle pixel scanline background accent (optional decorative texture) */
+/* 已選取按鈕再按下時的效果 */
+.pixel-filter-btn[aria-pressed='true']:active {
+  transform: translate(2px, 3px);
+  box-shadow:
+    inset 3px 3px 0 0 rgba(0, 0, 0, 0.5),
+    inset -2px -2px 0 0 rgba(255, 255, 255, 0.05),
+    0 0 0 0 #150e26;
+  filter: brightness(0.8);
+}
+
+/* Subtle pixel scanline background accent */
 .pixel-grid-pattern {
   background-size: 24px 24px;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
 }
