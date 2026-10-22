@@ -1,4 +1,5 @@
 // Synthesized 16-bit retro RPG sound effects using Web Audio API
+import { getAudioContext, unlockAudioContext } from './audioContext';
 
 class SoundManager {
   private ctx: AudioContext | null = null;
@@ -9,12 +10,7 @@ class SoundManager {
   }
 
   private initContext() {
-    if (!this.ctx && typeof window !== 'undefined') {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (AudioCtx) {
-        this.ctx = new AudioCtx();
-      }
-    }
+    if (!this.ctx) this.ctx = getAudioContext();
     if (this.ctx && this.ctx.state !== 'running') {
       this.ctx.resume().catch(() => {});
     }
@@ -22,20 +18,7 @@ class SoundManager {
 
   /** Resume audio during a trusted user gesture (required by mobile browsers). */
   public unlock() {
-    this.initContext();
-    if (!this.ctx) return;
-
-    // iOS Safari may require an audio node to start inside the gesture itself,
-    // even when resume() changes the context state to "running".
-    try {
-      const buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate);
-      const source = this.ctx.createBufferSource();
-      source.buffer = buffer;
-      source.connect(this.ctx.destination);
-      source.start(0);
-    } catch {
-      // Audio may be unavailable in the current browser or document state.
-    }
+    this.ctx = unlockAudioContext();
   }
 
   public playBlip() {
@@ -51,7 +34,7 @@ class SoundManager {
       osc.frequency.setValueAtTime(440, this.ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.08);
 
-      gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+      gain.gain.setValueAtTime(0.16, this.ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.08);
 
       osc.connect(gain);
