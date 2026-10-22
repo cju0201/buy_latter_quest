@@ -192,6 +192,8 @@ export const AdventureChronicle: React.FC<AdventureChronicleProps> = ({
             const isPurchase = log.type === 'purchased';
             const isExtend = log.type === 'extended';
             const isCreated = log.type === 'created';
+            const isChallenge = log.type === 'challenge';
+            const isEvaluation = log.type === 'evaluation';
 
             return (
               <div
@@ -204,6 +206,8 @@ export const AdventureChronicle: React.FC<AdventureChronicleProps> = ({
                     {isPurchase && '🛍️'}
                     {isExtend && '⏳'}
                     {isCreated && '📜'}
+                    {isChallenge && '📅'}
+                    {isEvaluation && '🧠'}
                   </div>
 
                   <div>
