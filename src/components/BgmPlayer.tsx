@@ -8,6 +8,7 @@ export const BgmPlayer: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0.35);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [playbackError, setPlaybackError] = useState(false);
 
   useEffect(() => {
     const saved = loadStoredBgmSettings();
@@ -16,10 +17,12 @@ export const BgmPlayer: React.FC = () => {
     // Note: Auto-play is restricted by browsers, user must explicitly initiate playback
   }, []);
 
-  const handleTogglePlay = () => {
+  const handleTogglePlay = async () => {
     soundManager.playBlip();
-    const playing = bgmManager.toggle();
+    const wasPlaying = bgmManager.getIsPlaying();
+    const playing = await bgmManager.toggle();
     setIsPlaying(playing);
+    setPlaybackError(!wasPlaying && !playing);
     saveStoredBgmSettings({ isPlaying: playing, volume });
   };
 
@@ -73,6 +76,11 @@ export const BgmPlayer: React.FC = () => {
               {isPlaying ? '播放中' : '已暫停'}
             </span>
           </div>
+          {playbackError && (
+            <p role="status" className="mb-2 text-[10px] leading-relaxed text-amber-200">
+              無法啟動音樂，請再按一次播放；並確認手機媒體音量已開啟。
+            </p>
+          )}
 
           {/* Controls: Play/Pause and Volume */}
           <div className="space-y-3">
