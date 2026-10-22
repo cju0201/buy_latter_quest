@@ -1,4 +1,5 @@
 // 16-bit Retro RPG Chiptune Procedural Background Music Generator & Audio Player
+import { getAudioContext, unlockAudioContext } from './audioContext';
 
 class BgmManager {
   private ctx: AudioContext | null = null;
@@ -7,22 +8,21 @@ class BgmManager {
   private masterGain: GainNode | null = null;
   private loopInterval: number | null = null;
   private noteTimeouts: number[] = [];
-  private externalAudio: HTMLAudioElement | null = null;
-  private useExternal: boolean = false;
+  private wasInterrupted = false;
 
   constructor() {
     // Lazy initialized on user gesture
   }
 
   private initAudio() {
-    if (!this.ctx && typeof window !== 'undefined') {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (AudioCtx) {
-        this.ctx = new AudioCtx();
-        this.masterGain = this.ctx.createGain();
-        this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
-        this.masterGain.connect(this.ctx.destination);
-      }
+    if (!this.ctx) {
+      this.ctx = getAudioContext();
+    }
+    if (this.ctx && !this.masterGain) {
+      this.masterGain = this.ctx.createGain();
+      this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
+      this.masterGain.connect(this.ctx.destination);
+      this.ctx.addEventListener('statechange', this.handleAudioStateChange);
     }
     if (this.ctx && this.ctx.state !== 'running') {
       this.ctx.resume().catch(() => {});
@@ -31,19 +31,21 @@ class BgmManager {
 
   /** Resume audio during a trusted user gesture (required by mobile browsers). */
   public unlock() {
-    this.initAudio();
-    if (!this.ctx) return;
-
-    try {
-      const buffer = this.ctx.createBuffer(1, 1, this.ctx.sampleRate);
-      const source = this.ctx.createBufferSource();
-      source.buffer = buffer;
-      source.connect(this.ctx.destination);
-      source.start(0);
-    } catch {
-      // Audio may be unavailable in the current browser or document state.
-    }
+    this.ctx = unlockAudioContext();
+    if (this.ctx && !this.masterGain) this.initAudio();
   }
+
+  private handleAudioStateChange = () => {
+    if (!this.ctx) return;
+    if (this.ctx.state !== 'running') {
+      this.wasInterrupted = this.isPlaying;
+      this.noteTimeouts.forEach((timeout) => clearTimeout(timeout));
+      this.noteTimeouts = [];
+    } else if (this.isPlaying && this.wasInterrupted) {
+      this.wasInterrupted = false;
+      this.playMelodyStep(0);
+    }
+  };
 
   // Pentatonic & diatonic town theme notes for a cozy 16-bit RPG tavern/inn
   // Frequency in Hz: C4(261.63), D4(293.66), E4(329.63), G4(392.00), A4(440.00), B4(493.88), C5(523.25), D5(587.33), E5(659.25), G5(783.99)
@@ -88,7 +90,7 @@ class BgmManager {
 
     const dur = currentNote.duration * beatDuration;
     noteGain.gain.setValueAtTime(0.001, now);
-    noteGain.gain.exponentialRampToValueAtTime(0.18, now + 0.04);
+    noteGain.gain.exponentialRampToValueAtTime(0.24, now + 0.04);
     noteGain.gain.exponentialRampToValueAtTime(0.001, now + dur * 0.95);
 
     osc.connect(filter);
@@ -106,7 +108,7 @@ class BgmManager {
       const arpGain = this.ctx.createGain();
       arpOsc.type = 'sine';
       arpOsc.frequency.setValueAtTime(f, now + idx * (dur / 4));
-      arpGain.gain.setValueAtTime(0.06, now + idx * (dur / 4));
+      arpGain.gain.setValueAtTime(0.08, now + idx * (dur / 4));
       arpGain.gain.exponentialRampToValueAtTime(0.0001, now + (idx + 1) * (dur / 4));
       arpOsc.connect(arpGain);
       arpGain.connect(this.masterGain);
@@ -123,41 +125,21 @@ class BgmManager {
     this.noteTimeouts.push(nextTimeout);
   }
 
-  public start() {
+  public async start(): Promise<boolean> {
     this.initAudio();
-    if (this.isPlaying) return;
+    if (this.isPlaying) return true;
+    if (!this.ctx || !this.masterGain) return false;
 
-    // Check if an external audio file exists at assets/audio/background.mp3
-    if (!this.externalAudio) {
-      this.externalAudio = new Audio('assets/audio/background.mp3');
-      this.externalAudio.loop = true;
-      this.externalAudio.volume = this.volume;
-      this.externalAudio.addEventListener('error', () => {
-        // Fallback to synthesized 16-bit chiptune
-        this.useExternal = false;
-      });
-    }
-
-    this.isPlaying = true;
-
-    // Wait for mobile browsers to resume the AudioContext before scheduling
-    // notes; otherwise the note timer can advance while audio is still paused.
-    const beginPlayback = () => {
-      if (!this.isPlaying) return;
-      if (this.useExternal && this.externalAudio) {
-        this.externalAudio.play().catch(() => {
-          this.useExternal = false;
-          this.playMelodyStep(0);
-        });
-      } else {
-        this.playMelodyStep(0);
-      }
-    };
-
-    if (this.ctx && this.ctx.state !== 'running') {
-      this.ctx.resume().then(beginPlayback).catch(() => {});
-    } else {
-      beginPlayback();
+    try {
+      if (this.ctx.state !== 'running') await this.ctx.resume();
+      if (this.ctx.state !== 'running') return false;
+      this.isPlaying = true;
+      this.wasInterrupted = false;
+      this.playMelodyStep(0);
+      return true;
+    } catch {
+      this.isPlaying = false;
+      return false;
     }
   }
 
@@ -165,18 +147,14 @@ class BgmManager {
     this.isPlaying = false;
     this.noteTimeouts.forEach(t => clearTimeout(t));
     this.noteTimeouts = [];
-    if (this.externalAudio) {
-      this.externalAudio.pause();
-    }
   }
 
-  public toggle(): boolean {
+  public async toggle(): Promise<boolean> {
     if (this.isPlaying) {
       this.pause();
       return false;
     } else {
-      this.start();
-      return true;
+      return this.start();
     }
   }
 
@@ -184,9 +162,6 @@ class BgmManager {
     this.volume = Math.max(0, Math.min(1, val));
     if (this.masterGain && this.ctx) {
       this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
-    }
-    if (this.externalAudio) {
-      this.externalAudio.volume = this.volume;
     }
   }
 
