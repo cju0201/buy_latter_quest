@@ -102,6 +102,9 @@ export const CHALLENGE_TEMPLATES: WeeklyChallengeTemplate[] = [
     verificationType: 'self_reflection',
   },
 ];
+export function getChallengeDisplayTitle(title: string): string {
+  return title.split(/[：:]/, 1)[0].trim();
+}
 
 // Helper: Get Taiwan Time (Asia/Taipei UTC+8) current week info
 export function getTaiwanWeekInfo(date: Date = new Date()): {
