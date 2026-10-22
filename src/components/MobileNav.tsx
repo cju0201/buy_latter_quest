@@ -25,9 +25,9 @@ export const MobileNav: React.FC<MobileNavProps> = ({
         <button
           type="button"
           onClick={() => handleClick('lobby')}
-          className={`flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
+          className={`mobile-nav-item flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
             activeTab === 'lobby'
-              ? 'text-[#F6D778] font-bold'
+              ? 'mobile-nav-item-active text-[#F6D778] font-bold'
               : 'text-[#F4D9F0]/70 hover:text-white'
           }`}
         >
@@ -38,9 +38,9 @@ export const MobileNav: React.FC<MobileNavProps> = ({
         <button
           type="button"
           onClick={() => handleClick('codex')}
-          className={`relative flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
+          className={`mobile-nav-item relative flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
             activeTab === 'codex'
-              ? 'text-[#F6D778] font-bold'
+              ? 'mobile-nav-item-active text-[#F6D778] font-bold'
               : 'text-[#F4D9F0]/70 hover:text-white'
           }`}
         >
@@ -56,9 +56,9 @@ export const MobileNav: React.FC<MobileNavProps> = ({
         <button
           type="button"
           onClick={() => handleClick('relics')}
-          className={`flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
+          className={`mobile-nav-item flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
             activeTab === 'relics'
-              ? 'text-[#F6D778] font-bold'
+              ? 'mobile-nav-item-active text-[#F6D778] font-bold'
               : 'text-[#F4D9F0]/70 hover:text-white'
           }`}
         >
@@ -69,9 +69,9 @@ export const MobileNav: React.FC<MobileNavProps> = ({
         <button
           type="button"
           onClick={() => handleClick('achievements')}
-          className={`flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
+          className={`mobile-nav-item flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
             activeTab === 'achievements'
-              ? 'text-[#F6D778] font-bold'
+              ? 'mobile-nav-item-active text-[#F6D778] font-bold'
               : 'text-[#F4D9F0]/70 hover:text-white'
           }`}
         >
@@ -82,9 +82,9 @@ export const MobileNav: React.FC<MobileNavProps> = ({
         <button
           type="button"
           onClick={() => handleClick('chronicle')}
-          className={`flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
+          className={`mobile-nav-item flex flex-col items-center justify-center py-1 rounded transition-colors cursor-pointer ${
             activeTab === 'chronicle'
-              ? 'text-[#F6D778] font-bold'
+              ? 'mobile-nav-item-active text-[#F6D778] font-bold'
               : 'text-[#F4D9F0]/70 hover:text-white'
           }`}
         >
